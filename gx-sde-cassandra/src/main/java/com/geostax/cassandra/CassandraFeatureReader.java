@@ -18,6 +18,7 @@ public class CassandraFeatureReader implements FeatureReader<SimpleFeatureType, 
 
 	CassandraQueryManagement manager;
 	SimpleFeature currentFeature;
+	
 	Iterator<SimpleFeature> itr;
 	
 	Envelope bbox;
@@ -47,19 +48,14 @@ public class CassandraFeatureReader implements FeatureReader<SimpleFeatureType, 
 			}
 		}
 		StringBuilder sb = new StringBuilder();
-		sb.append(bbox.getMinY() + ":" + bbox.getMinX() + ",");
-		sb.append(bbox.getMinY() + ":" + bbox.getMaxX() + ",");
-		sb.append(bbox.getMaxY() + ":" + bbox.getMaxX() + ",");
-		sb.append(bbox.getMaxY() + ":" + bbox.getMinX() + ";");
-		String polygon = sb.toString();
 
 		double lat0 = bbox.getMinY();
 		double lon0 = bbox.getMinX();
 		double lat1 = bbox.getMaxY();
 		double lon1 = bbox.getMaxX();
 		
-		manager.queryData(schema_name, lat0, lon0, lat1, lon1);
-
+		//manager.queryData(schema_name, lat0, lon0, lat1, lon1);
+		itr=manager.queryData(schema_name, bbox).iterator();
 	}
 
 	@Override
